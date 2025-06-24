@@ -38,6 +38,7 @@
     "mathjax-full": "^3.1.4",
     "react": "*",
     "react-native": "*",
+    "react-native-render-html": "^6.3.4",
     "transformation-matrix": "^2.11.1"
   },
   "peerDependencies": {

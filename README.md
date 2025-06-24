@@ -11,6 +11,8 @@ Refer to https://github.com/ShaMan123/react-native-math-view/issues/97.
 A react native view used to easily display and handle math. 
 The library doesn't use `WebView`.
 
+HTML rendering support with `react-native-render-html`!
+
 | MathView Example | Lists Example | MathText |
 | --- | --- | --- |
 | ![Runner](./docs/math-standalone.gif) | ![Lists Example](./docs/math-lists.gif) | <img src="./docs/math-text.png" width="320px" alt="MathText" /> |
@@ -19,7 +21,7 @@ The library doesn't use `WebView`.
 
 ## Installation
 
-`npm install --save react-native-math-view` **OR** `yarn add react-native-math-view`
+`npm install --save react-native-math-view react-native-render-html` **OR** `yarn add react-native-math-view react-native-render-html`
 
 `react-native` > 0.59
 
@@ -48,7 +50,7 @@ npm run compile
 ## Getting Started
 
 ```tsx
-import MathView, { MathText } from 'react-native-math-view';
+import MathView, { MathText, HtmlMathText } from 'react-native-math-view';
 
   return (
     ...
@@ -67,10 +69,41 @@ import MathView, { MathText } from 'react-native-math-view';
             direction="ltr"
             CellRendererComponent={<TouchableOpacity />}
         />
+        
+        {/* NEW: HTML content rendering */}
+        <HtmlMathText
+            html={`<p>Um carro esportivo é financiado pelo Japão, projetado na Itália...</p><p style="text-align:right;"><small>REICH, R. O trabalho das nações...</small></p>`}
+            htmlStyle={{
+                p: { fontSize: 16, lineHeight: 24, marginBottom: 12 },
+                small: { fontSize: 12, color: '#666' }
+            }}
+        />
+        
+        {/* Enhanced MathText with HTML support */}
+        <MathText
+            html={`<p>The quadratic formula: $x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}$</p>`}
+        />
     ...
   );
 
 
+```
+
+## HTML Rendering
+
+This library now supports rendering HTML content! See [HTML_RENDERING.md](./HTML_RENDERING.md) for detailed documentation.
+
+### Quick Example
+
+```tsx
+import { HtmlMathText } from 'react-native-math-view';
+
+<HtmlMathText
+  html={`<p>Your HTML content here...</p>`}
+  htmlStyle={{
+    p: { fontSize: 16, marginBottom: 12 }
+  }}
+/>
 ```
 
 ## TroubleShooting
