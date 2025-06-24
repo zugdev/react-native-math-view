@@ -23,7 +23,7 @@ export type MathTextItemProps<T extends boolean = boolean> = (T extends true ? O
     value: string,
     isMath: T,
     isHtml?: boolean,
-    Component?: MathView,
+    Component?: typeof MathView,
     CellRendererComponent?: ElementOrRenderer,
     inline?: boolean
 }

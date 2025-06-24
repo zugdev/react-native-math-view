@@ -50,7 +50,7 @@ function parseConfig(config?: Partial<MathToSVGConfig>) {
 }
 
 export default function MathjaxFactory(config?: Partial<MathToSVGConfig>) {
-    return FactoryMemoize(parseConfig(config));
+    return FactoryMemoize(parseConfig(config) as any);
 }
 
 /** call MathjaxFactory to create and cache an instance of @class {MathjaxAccessor} for future use */

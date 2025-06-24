@@ -21,7 +21,7 @@ export declare function useSyncParser(props: MathViewProps): {
         height: number;
     };
 } | {
-    error: unknown;
+    error: Error;
 };
 export declare function mathViewAsyncRenderer<T extends MathViewInjectedProps, R extends any>(render: React.ForwardRefRenderFunction<R, T>): React.ForwardRefExoticComponent<MathViewProps & React.RefAttributes<R>>;
 export declare function mathViewSyncRenderer<T extends MathViewInjectedProps, R extends any>(render: React.ForwardRefRenderFunction<R, T>): React.ForwardRefExoticComponent<MathViewProps & React.RefAttributes<R>>;

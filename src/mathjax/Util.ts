@@ -23,7 +23,7 @@ export function extractDataFromMathjaxId(node: LiteElement) {
     const splitId = _.split(xlinkHref, '-');
     const charCode = parseInt(_.last(splitId) as string, 16);
     const char = String.fromCharCode(charCode);
-    return _.zipObject(['ns', 'localCahceId', 'input', 'variant', 'charCode16', 'charCode', 'char'], _.concat(splitId, charCode, char));
+    return _.zipObject(['ns', 'localCahceId', 'input', 'variant', 'charCode16', 'charCode', 'char'], _.concat(splitId, [charCode.toString()], [char]));
 }
 
 /**
@@ -59,12 +59,15 @@ export function transformationToMatrix(node: LiteElement, attributeKey = 'transf
  * makes it possible to draw the node in a shallow svg tree while preserving it's exact layout
  * @param node
  */
-export function accTransformations(node: LiteElement) {
-    const matrices = TreeWalker.walkUp<matrixUtil.Matrix>(node, (n, level, acc) => {
-        return transformationToMatrix(n);
+export function accTransformations(node: LiteElement): any {
+    const matrices: any[] = [];
+    TreeWalker.walkUp<LiteElement, any>(node, (n, level, acc) => {
+        const matrix = transformationToMatrix(n);
+        matrices.push(matrix);
+        return matrix;
     });
 
-    return compose(..._.reverse(matrices));
+    return matrices.reverse().reduce((acc: any, matrix: any) => matrixUtil.transform(acc, matrix), matrixUtil.identity());
 }
 
 export class Memoize {

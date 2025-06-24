@@ -25,7 +25,7 @@ export function useAsyncParser(props: MathViewProps) {
         try {
             setResult(func(math));
         } catch (error) {
-            setResult({ error });
+            setResult({ error: error as Error });
         }
     }, [math, func]);
     return result;
@@ -42,7 +42,7 @@ export function useSyncParser(props: MathViewProps) {
         try {
             return mathjax.toSVG(math);
         } catch (error) {
-            return { error };
+            return { error: error as Error };
         }
     }, [math, mathjax]);
 }
@@ -51,10 +51,10 @@ export function mathViewAsyncRenderer<T extends MathViewInjectedProps, R extends
     return React.forwardRef((props: MathViewProps, ref: React.Ref<R>) => {
         const resultProps = useAsyncParser(props);
         useDebug(props.debug, resultProps);
-        if (resultProps?.error) {
-            return <MathErrorBoundary {...props} {...resultProps as { error: Error }} />;
+        if (resultProps && 'error' in resultProps) {
+            return <MathErrorBoundary {...props} {...resultProps} />;
         } else if (resultProps) {
-            return render({ ...props, ...resultProps }, ref);
+            return render({ ...props, ...resultProps } as unknown as T, ref);
         } else {
             //  noop
             return null;
@@ -65,9 +65,9 @@ export function mathViewAsyncRenderer<T extends MathViewInjectedProps, R extends
 export function mathViewSyncRenderer<T extends MathViewInjectedProps, R extends any>(render: React.ForwardRefRenderFunction<R, T>) {
     return React.forwardRef((props: MathViewProps, ref: React.Ref<R>) => {
         const resultProps = useSyncParser(props);
-        return resultProps.error ?
-            <MathErrorBoundary {...props} {...resultProps as { error: Error }} /> :
-            render({ ...props, ...resultProps }, ref);
+        return ('error' in resultProps) ?
+            <MathErrorBoundary {...props} {...resultProps} /> :
+            render({ ...props, ...resultProps } as unknown as T, ref);
     });
 }
 

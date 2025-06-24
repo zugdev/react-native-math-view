@@ -7,8 +7,8 @@ import { STATE } from 'mathjax-full/js/core/MathItem';
 //
 //  Remove the data-semantic-* attributes other than data-semantic-speech
 //
-function removeSemanticData(math) {
-    math.root.walkTree(node => {
+function removeSemanticData(math: any) {
+    math.root.walkTree((node: any) => {
         const attributes = node.attributes.getAllAttributes();
         delete attributes.xmlns;    // some internal nodes get this attribute for some reason
         for (const name of Object.keys(attributes)) {
@@ -20,8 +20,9 @@ function removeSemanticData(math) {
 }
 
 const renderMath: RenderMath<any, any, any> = (math, doc) => {
-    const { start, end, bbox, math: latex } = math;
-    return
+    const { start, end, math: latex } = math as any;
+    const bbox = (math as any).bbox;
+    return true;
 }
 
 //
@@ -33,7 +34,7 @@ const renderMath: RenderMath<any, any, any> = (math, doc) => {
 export const speechAction = {
     simplfy: [
         STATE.TYPESET + 1,
-        (doc) => {
+        (doc: any) => {
             console.log('m1')
 
             for (const math of doc.math) {

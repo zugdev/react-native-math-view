@@ -24,7 +24,7 @@ export declare function transformationToMatrix(node: LiteElement, attributeKey?:
  * makes it possible to draw the node in a shallow svg tree while preserving it's exact layout
  * @param node
  */
-export declare function accTransformations(node: LiteElement): matrixUtil.Matrix;
+export declare function accTransformations(node: LiteElement): any;
 export declare class Memoize {
     cache: any[];
     clearCache(): void;

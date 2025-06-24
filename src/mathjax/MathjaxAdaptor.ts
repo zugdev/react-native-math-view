@@ -71,7 +71,7 @@ class ConvertMemoize extends Memoize {
         const cached = this.get(math, options);
         if (_.isNil(cached)) {
             const mathElement = doc.convert(math, ConvertMemoize.getConvertOptions(options)) as LiteElement;
-            const isError = doc.inputJax[0].parseOptions.error;
+            const isError = (doc.inputJax[0] as any).parseOptions?.error;
             if (isError) {
                 const error = new Error(ERROR_MAP.get(math)?.message || '');
                 error.name = MathError.parsing;
@@ -142,7 +142,7 @@ export default class MathjaxAdaptor {
             macros: options.macros,
             environments: options.environments,
             formatError: (jax: TeX<any, any, any>, err: TexError) => {
-                const math = jax.latex;
+                const math = (jax as any).latex;
                 ERROR_MAP.set(math, err);
                 return jax.formatError(err);
             },
@@ -162,8 +162,8 @@ export default class MathjaxAdaptor {
 
             //enrichSpeech: options.enrichSpeech
         });
-        this.css = this.adaptor.textContent(this.svg.styleSheet(this.html));
-        this.styles = this.svg.cssStyles.styles as {
+        this.css = this.adaptor.textContent((this.svg as any).styleSheet(this.html));
+        this.styles = (this.svg.cssStyles as any).styles as {
             [key: string]: {
                 [key: string]: string;
             };
@@ -172,7 +172,7 @@ export default class MathjaxAdaptor {
         this.styleQuery = _.flatten(_.map(strokeWidthStyles, (css, key: string) => {
             const selectors = key.split(',');
             return _.map(selectors, selector => {
-                const tree = TreeWalker.walkDown<TreeWalker.Parent<{ tagName: string, properties: any }>, LiteElement>(fromSelector(selector),
+                const tree = TreeWalker.walkDown<TreeWalker.Parent<{ tagName: string, properties: any }>, LiteElement>(fromSelector(selector) as any,
                     (n, l) => new LiteElement(n.tagName, _.mapKeys(n.properties, (value, key) => _.kebabCase(key))));
                 return { tree: tree.reverse(), value: parseFloat(css['stroke-width']) }
             });
@@ -374,7 +374,7 @@ export default class MathjaxAdaptor {
             return _.assign({}, h, v);
         });
 
-        return _.zipWith(responseArr, viewBoxes, (res, viewBox) => _.assign(res, ({ viewBox }))) as MathFragmentResponse[];
+        return _.zipWith(responseArr, viewBoxes, (res, viewBox) => _.assign(res, ({ viewBox }))) as any as MathFragmentResponse[];
 
     }
 
