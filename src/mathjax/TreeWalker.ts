@@ -26,7 +26,7 @@ export function walkUp<N extends Child | LiteElement = LiteElement, T = LiteElem
     while (n.parent && !_break) {
         accum.push(callback(n, i, accum, quit));
         i++;
-        n = n.parent;
+        n = n.parent as N;
     }
     return accum;
 }

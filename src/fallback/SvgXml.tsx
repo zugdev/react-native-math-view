@@ -7,10 +7,15 @@ import { ErrorComponent } from '../Error';
 import { mathViewRender } from '../hooks';
 
 const FallbackMathView = mathViewRender((props: MathViewInjectedProps, ref: Ref<any>) => {
-    const { size, svg, ...passProps } = props;
+    const { size, svg, hitSlop, ...passProps } = props;
+    // Only pass hitSlop if it is not null
+    const svgProps = hitSlop === null
+        ? passProps
+        : { ...passProps, hitSlop };
+
     return (
         <SvgFromXml
-            {...passProps}
+            {...svgProps}
             xml={svg}
             {...size}
             style={[props.resizeMode === 'contain' && styles.contain, props.style]}

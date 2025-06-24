@@ -40,6 +40,7 @@
     "react": "*",
     "react-native": "*",
     "react-native-render-html": "^6.3.4",
+    "react-native-svg": "^15.12.0",
     "transformation-matrix": "^2.11.1"
   },
   "peerDependencies": {
