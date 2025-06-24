@@ -54,7 +54,3 @@ dist
 dist/**/*
 
 **/deprecated/**
-
-# Generated type declarations
-lib/
-*.tsbuildinfo
